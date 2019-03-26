@@ -1,0 +1,29 @@
+{
+  "bindings": [
+    {
+      "authLevel": "function",
+      "name": "req",
+      "type": "httpTrigger",
+      "direction": "in",
+      "methods": [
+        "get",
+        "post"
+      ]
+    },
+    {
+      "name": "$return",
+      "type": "http",
+      "direction": "out"
+    },
+    {
+      "type": "cosmosDB",
+      "name": "outputDocuments",
+      "databaseName": "ImageProcessor",
+      "collectionName": "Images",
+      "createIfNotExists": false,
+      "connectionStringSetting": "codb-neu-p-image-processor-01_DOCUMENTDB",
+      "partitionKey": "/ImageId",
+      "direction": "out"
+    }
+  ]
+}
