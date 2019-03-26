@@ -11,7 +11,7 @@ public static async Task<IActionResult> Run(HttpRequest req,  IAsyncCollector<ob
 
     try{
 
-
+        // testing sc integration
         string name = req.Query["name"];
 
         string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
