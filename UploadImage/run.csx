@@ -12,7 +12,7 @@ public static async Task<IActionResult> Run(HttpRequest req,  IAsyncCollector<ob
     try{
 
         // testing sc integration
-        string name = req.Query["name"];
+        string name = req.Query["name2"];
 
         string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
         dynamic data = JsonConvert.DeserializeObject(requestBody);
