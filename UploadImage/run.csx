@@ -10,9 +10,9 @@ public static async Task<IActionResult> Run(HttpRequest req,  IAsyncCollector<ob
     log.LogInformation("C# HTTP trigger function processed a request.");
 
     try{
-
+        // https://fap-neu-p-image-processor-01.azurewebsites.net/api/UploadImage?code=1ybGWpIehDuDABZJCQwgFkxdesyBUkZQZziaGfCPXctzK6h1XEjUOw==
         // testing sc integration
-        string name = req.Query["name2"];
+        string name = req.Query["name"];
 
         string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
         dynamic data = JsonConvert.DeserializeObject(requestBody);
