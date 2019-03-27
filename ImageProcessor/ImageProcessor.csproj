@@ -4,7 +4,8 @@
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB" Version="3.0.3" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.26" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
@@ -17,10 +18,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="..\..\%2540 Temp Workspace\ImageProcessor\Functions\UploadImageFunction\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB">
-      <HintPath>C:\Users\PBorowa\.nuget\packages\microsoft.azure.webjobs.extensions.cosmosdb\3.0.1\lib\netstandard2.0\Microsoft.Azure.WebJobs.Extensions.CosmosDB.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>
