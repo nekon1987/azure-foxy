@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Azure.WebJobs.Extensions.EventGrid;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -20,6 +21,9 @@ namespace ImageProcessor.Functions.UploadImageFunction
                 "ImageProcessor", "Images", Id = "ImageId",
                  ConnectionStringSetting = "cstr-codb-neu-p-image-processor-01")]
                     IAsyncCollector<object> outputDocuments,
+
+           // [EventGrid(TopicEndpointUri = 
+           
 
             ILogger log)
         {
