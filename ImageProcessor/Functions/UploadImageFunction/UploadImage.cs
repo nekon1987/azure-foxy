@@ -24,10 +24,12 @@ namespace ImageProcessor.Functions.UploadImageFunction
 
             var outputDocument = new
             {
+                ImageId = Guid.NewGuid(),
                 name = name,
                 content = "3333",
                 outputDocument = "3333333"
             };
+
             await outputDocuments.AddAsync(outputDocument);
 
 
