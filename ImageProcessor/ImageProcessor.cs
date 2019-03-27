@@ -15,7 +15,7 @@ namespace Foxy.ImageProcessor
         [FunctionName("ImageProcessor")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
-            IAsyncCollector<object> outputDocuments,
+            [CosmosDB()] IAsyncCollector<object> outputDocuments,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
