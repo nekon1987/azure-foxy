@@ -8,35 +8,36 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace ImageProcessor.Functions.UploadImageFunction
+namespace ImageProcessor.Functions.GetImageFunction
 {
-    public static class UploadImage
+    public static class GetImage
     {
-        [FunctionName("UploadImage")]
+        [FunctionName("GetImage")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
 
             [CosmosDB(
-                "ImageProcessor", "Images", Id = "ImageId",
-                 ConnectionStringSetting = "cstr-codb-neu-p-image-processor-01")]
-                    IAsyncCollector<object> outputDocuments,
+                databaseName: "ImageProcessor",
+                collectionName: "Images",
+                ConnectionStringSetting = "cstr-codb-neu-p-image-processor-01",
+                PartitionKey = "{Query.pid}",
+                Id = "{Query.id}")]
+                    dynamic imageEntity,
 
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
-            string name = req.Query["name"];
 
-
-            var outputDocument = new
+            if (imageEntity == null)
             {
-                imageId = Guid.NewGuid(),
-                name = name,
-                content = "3333",
-                outputDocument = "3333333"
-            };
+                log.LogInformation($"ToDo item not found");
+            }
+            else
+            {
+                log.LogInformation($"Found ToDo item, Description={imageEntity.content}");
+            }
 
-            await outputDocuments.AddAsync(outputDocument);
-
+            string name = req.Query["id"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
