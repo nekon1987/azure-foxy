@@ -10,7 +10,6 @@ using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Azure.EventGrid.Models;
 using Microsoft.Azure.WebJobs.Extensions.EventGrid;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using SubscriptionValidationResponse = Microsoft.Azure.EventGrid.Models.SubscriptionValidationResponse;
 
 namespace ImageProcessor.Functions.SendEmailFunction
@@ -19,7 +18,7 @@ namespace ImageProcessor.Functions.SendEmailFunction
     {
         
         [FunctionName("SendEmail")]
-        public static IActionResult Run([EventGridTrigger] JObject eventGridEvent, ILogger log)
+        public static void Run([EventGridTrigger]EventGridEvent eventGridEvent, ILogger log)
         {
             log.LogInformation($"C# HTTP trigger function begun");
 
@@ -38,7 +37,7 @@ namespace ImageProcessor.Functions.SendEmailFunction
             //}
 
 
-            return new OkObjectResult("fuck off");
+           // return new OkObjectResult("fuck off");
         }
     }
 }
