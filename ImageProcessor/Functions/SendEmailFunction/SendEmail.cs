@@ -22,6 +22,9 @@ namespace ImageProcessor.Functions.SendEmailFunction
         {
             log.LogInformation($"C# HTTP trigger function begun");
 
+            var eventData = (SubscriptionValidationEventData)eventGridEvent.Data;
+
+
             //if (eventGridEvent.Data is SubscriptionValidationEventData)
             //{
             //    var eventData = (SubscriptionValidationEventData)eventGridEvent.Data;
@@ -37,7 +40,7 @@ namespace ImageProcessor.Functions.SendEmailFunction
             //}
 
 
-           // return new OkObjectResult("fuck off");
+            // return new OkObjectResult("fuck off");
         }
     }
 }
