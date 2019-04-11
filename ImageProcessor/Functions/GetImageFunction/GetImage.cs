@@ -19,7 +19,7 @@ namespace ImageProcessor.Functions.GetImageFunction
             [CosmosDB(
                 databaseName: "ImageProcessor",
                 collectionName: "Images",
-                ConnectionStringSetting = "cstr-codb-neu-p-image-processor-01",
+                ConnectionStringSetting = "dbg-cstr-codb-neu-p-image-processor-01",
                 PartitionKey = "{Query.pid}",
                 Id = "{Query.id}")]
                     dynamic imageEntity,

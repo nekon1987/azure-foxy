@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
-using ImageProcessor.Helpers;
+using ImageProcessor.Core;
+using ImageProcessor.Core.Factories;
+using ImageProcessor.Core.Helpers;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
@@ -18,24 +20,27 @@ namespace ImageProcessor.Functions._EventPublishers.CosmosDbPublishing
 
     public static class ImagesCollectionEventsPublisher
     {
-        private static readonly EventsHelper _eventsHelper = new EventsHelper();
+        private static readonly EventsFactory EventsFactory = new EventsFactory();
+        private static readonly EventPublisher EventPublisher = new EventPublisher();
 
         [FunctionName("ImagesCollectionEventsPublisher")]
         public static void Run([CosmosDBTrigger(
             databaseName: "ImageProcessor",
             collectionName: "Images",
-            ConnectionStringSetting = "cstr-codb-neu-p-image-processor-01",
-            LeaseCollectionName = "leases")]IReadOnlyList<Document> input, ILogger log)
+            ConnectionStringSetting = "dbg-cstr-codb-neu-p-image-processor-01", // todo - use debug config for local and prod
+            LeaseCollectionName = "leases",
+            CreateLeaseCollectionIfNotExists = true
+            )]IReadOnlyList<Document> input, ILogger log)
         {
-            // we should have simple event publisher based on rules depending on data
 
-            var testEvent = _eventsHelper.PrepareEvent("testSubject", $"this is data created at {DateTime.Now}");
-             _eventsHelper.PublishEvent(testEvent);
-
-            if (input != null && input.Count > 0)
+            foreach (var document in input)
             {
-                log.LogInformation("Documents modified " + input.Count);
-                log.LogInformation("First document Id " + input[0].Id);
+                var imageId = document.GetPropertyValue<Guid>("imageId");
+                var imageName= document.GetPropertyValue<string>("name");
+
+                var @event = EventsFactory.CreateImageStoredEvent(imageId, imageName);
+
+                EventPublisher.PublishEvent(@event);
             }
         }
     }

@@ -8,7 +8,6 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ImageProcessor.Functions._EventPublishers.CosmosDbPublishing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -21,39 +20,39 @@ using Newtonsoft.Json;
 
 namespace ImageProcessor.Functions
 {
-    public class Event
-    {
-        /// <summary>
-        /// Gets the unique identifier for the event.
-        /// </summary>
-        public string Id { get; }
+    //public class Event
+    //{
+    //    /// <summary>
+    //    /// Gets the unique identifier for the event.
+    //    /// </summary>
+    //    public string Id { get; }
 
-        /// <summary>
-        /// Gets the publisher defined path to the event subject.
-        /// </summary>
-        public string Subject { get; set; }
+    //    /// <summary>
+    //    /// Gets the publisher defined path to the event subject.
+    //    /// </summary>
+    //    public string Subject { get; set; }
 
-        /// <summary>
-        /// Gets the registered event type for this event source.
-        /// </summary>
-        public string EventType { get; }
+    //    /// <summary>
+    //    /// Gets the registered event type for this event source.
+    //    /// </summary>
+    //    public string EventType { get; }
 
-        /// <summary>
-        /// Gets the time the event is generated based on the provider's UTC time.
-        /// </summary>
-        public string EventTime { get; }
+    //    /// <summary>
+    //    /// Gets the time the event is generated based on the provider's UTC time.
+    //    /// </summary>
+    //    public string EventTime { get; }
 
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public Event()
-        {
-            Id = Guid.NewGuid().ToString();
-            EventType = "shipevent";
-            EventTime = DateTime.UtcNow.ToString("o");
-        }
-    }
+    //    /// <summary>
+    //    /// Constructor.
+    //    /// </summary>
+    //    public Event()
+    //    {
+    //        Id = Guid.NewGuid().ToString();
+    //        EventType = "shipevent";
+    //        EventTime = DateTime.UtcNow.ToString("o");
+    //    }
+    //}
     public class ResourceCredentials : ServiceClientCredentials
     {
         readonly string resourceKey;
@@ -154,12 +153,6 @@ namespace ImageProcessor.Functions
                     Topic = $"",
                     Subject = $"Subject-{i}",
                     Id = Guid.NewGuid().ToString(),
-                    Data = new EventSpecificData()
-                    {
-                        Field1 = "Value1",
-                        Field2 = "Value2",
-                        Field3 = "Value3"
-                    },
                     EventTime = DateTime.Now,
                     EventType = "Microsoft.MockPublisher.TestEvent",
                     DataVersion = "1.0"
@@ -170,12 +163,5 @@ namespace ImageProcessor.Functions
         }
     }
 
-    class EventSpecificData
-    {
-        public string Field1 { get; set; }
-
-        public string Field2 { get; set; }
-
-        public string Field3 { get; set; }
-    }
+  
 }

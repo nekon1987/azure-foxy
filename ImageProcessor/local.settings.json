@@ -7,11 +7,14 @@
     "WEBSITE_AUTH_ENABLED": "False",
     "APPINSIGHTS_INSTRUMENTATIONKEY": "397241f4-b021-4c4d-b654-765cac6ca624",
     "cstr-codb-neu-p-image-processor-01": "AccountEndpoint=https://codb-neu-p-image-processor-01.documents.azure.com:443/;AccountKey=LjNNt4bQieVlJeJjjStT4vNT8lnR2B1HaOnoz40QxLVZkfma9Z6KL0E4KahqY4hI4hCsYxr3yRBZmobrcQpftw==;",
+    "dbg-cstr-codb-neu-p-image-processor-01": "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
     "WEBSITE_NODE_DEFAULT_VERSION": "10.14.1",
     "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING": "DefaultEndpointsProtocol=https;AccountName=stneupimageprocessor01;AccountKey=X9Zqf8TyQ6xTQzp7Lti3aNOh5mOqqBKREFG3gQxQPJQt//4q4yY4/QZqNSAIN39XGVMsLHdSTb6oBkv2eGoPoA==",
     "WEBSITE_CONTENTSHARE": "fap-neu-p-image-processor-018fea",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
     "WEBSITE_SITE_NAME": "fap-neu-p-image-processor-01",
-    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=stneupimageprocessor01;AccountKey=X9Zqf8TyQ6xTQzp7Lti3aNOh5mOqqBKREFG3gQxQPJQt//4q4yY4/QZqNSAIN39XGVMsLHdSTb6oBkv2eGoPoA=="
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=stneupimageprocessor01;AccountKey=X9Zqf8TyQ6xTQzp7Lti3aNOh5mOqqBKREFG3gQxQPJQt//4q4yY4/QZqNSAIN39XGVMsLHdSTb6oBkv2eGoPoA==",
+    "AzureEventGridTopicEndpoint": "http://localhost:5000/ImageProcessing",
+    "AzureEventGridTopicAccessKey": ""
   }
 }

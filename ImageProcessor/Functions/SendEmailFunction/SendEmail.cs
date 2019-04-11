@@ -16,7 +16,11 @@ namespace ImageProcessor.Functions.SendEmailFunction
 {
     public static class SendEmail
     {
-        
+
+        // https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-event-grid
+
+            // todo: react to event
+
         [FunctionName("SendEmail")]
         public static void Run([EventGridTrigger]EventGridEvent eventGridEvent, ILogger log)
         {
