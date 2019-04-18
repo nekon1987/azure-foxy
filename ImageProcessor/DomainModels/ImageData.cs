@@ -1,4 +1,6 @@
-﻿namespace ImageProcessor.DomainModels
+﻿using System;
+
+namespace ImageProcessor.DomainModels
 {
     public class ImageData
     {

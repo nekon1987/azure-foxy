@@ -7,7 +7,8 @@ namespace ImageProcessor.EventModels
 {
     public class ImageStoredEvent
     {
-        public Guid ImageId { get; set; }
+        public Guid PartitionId { get; set; }
+        public Guid ObjectId { get; set; }
         public string Name { get; set; }
     }
 }

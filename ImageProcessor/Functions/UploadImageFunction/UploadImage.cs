@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using ImageProcessor.Core.DataObjects;
 using ImageProcessor.Core.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -22,24 +23,28 @@ namespace ImageProcessor.Functions.UploadImageFunction
         [FunctionName("UploadImage")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
-            [CosmosDB("ImageProcessor", "Images", Id = "ImageId", 
+            [CosmosDB("ImageProcessor", "Images", Id = "ObjectId", 
                     ConnectionStringSetting = "dbg-cstr-codb-neu-p-image-processor-01", CreateIfNotExists = true)]
                     IAsyncCollector<object> outputDocuments,
             ILogger log)
         {
             log.LogInformation("UploadImage function triggered by an incomming http request");
-            var imageResult = RequestHelper.LoadSingleImageFromRequest(req);
+            var imageResult = RequestHelper.ExtractSingleImageFromRequest(req);
 
             if (imageResult.WasSuccessful)
             {
                 await outputDocuments.AddAsync(new
                 {
-                    imageId = Guid.NewGuid(),
+                    partitionId = Guid.NewGuid(),
                     name = imageResult.Content.Name,
                     bytes = imageResult.Content.Bytes
                 });
 
-                return (ActionResult) new OkObjectResult($"Succesfully stored image: {imageResult.Content.Name}");
+                return new OkObjectResult(new AwaitResultsResponse()
+                {
+                    AwaitCallbackIdentifier = Guid.NewGuid() // how to not polute domain with this?
+                });
+
             }
             else
             {

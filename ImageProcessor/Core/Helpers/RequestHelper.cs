@@ -9,7 +9,7 @@ namespace ImageProcessor.Core.Helpers
 {
     public class RequestHelper
     {
-        public FoxyResponse<ImageData> LoadSingleImageFromRequest(HttpRequest request)
+        public FoxyResponse<ImageData> ExtractSingleImageFromRequest(HttpRequest request)
         {
             try
             {

@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using ImageProcessor.Core;
-using ImageProcessor.Core.Factories;
 using ImageProcessor.Core.Helpers;
+using ImageProcessor.Gateways;
+using ImageProcessor.Gateways.Factories;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
@@ -35,10 +36,12 @@ namespace ImageProcessor.Functions._EventPublishers.CosmosDbPublishing
 
             foreach (var document in input)
             {
-                var imageId = document.GetPropertyValue<Guid>("imageId");
+                // TODO: could use mapping here
+                var partitionId = document.GetPropertyValue<Guid>("partitionId");
+                var imageId = document.GetPropertyValue<Guid>("id");
                 var imageName= document.GetPropertyValue<string>("name");
 
-                var @event = EventsFactory.CreateImageStoredEvent(imageId, imageName);
+                var @event = EventsFactory.CreateImageStoredEvent(partitionId, imageId, imageName);
 
                 EventPublisher.PublishEvent(@event);
             }
