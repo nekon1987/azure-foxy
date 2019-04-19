@@ -1,18 +1,12 @@
 using System;
 using System.Collections.Generic;
-using ImageProcessor.Core;
-using ImageProcessor.Core.Helpers;
-using ImageProcessor.Gateways;
-using ImageProcessor.Gateways.Factories;
+using ImageProcessor.Core.Eventing.Gateways;
+using ImageProcessor.Features.ImageStorage.Factories;
 using Microsoft.Azure.Documents;
-using Microsoft.Azure.EventGrid;
-using Microsoft.Azure.EventGrid.Models;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
-using Microsoft.Rest;
 
-namespace ImageProcessor.Functions._EventPublishers.CosmosDbPublishing
+namespace ImageProcessor.Features.ImageStorage.Eventing
 {
     public class SomeImageMetadata
     {
@@ -22,7 +16,7 @@ namespace ImageProcessor.Functions._EventPublishers.CosmosDbPublishing
     public static class ImagesCollectionEventsPublisher
     {
         private static readonly EventsFactory EventsFactory = new EventsFactory();
-        private static readonly EventPublisher EventPublisher = new EventPublisher();
+        private static readonly EventGridGateway EventPublisher = new EventGridGateway();
 
         [FunctionName("ImagesCollectionEventsPublisher")]
         public static void Run([CosmosDBTrigger(
@@ -37,13 +31,15 @@ namespace ImageProcessor.Functions._EventPublishers.CosmosDbPublishing
             foreach (var document in input)
             {
                 // TODO: could use mapping here
-                var partitionId = document.GetPropertyValue<Guid>("partitionId");
+                var sessionId = document.GetPropertyValue<Guid>("sessionId");
+                var commandId = document.GetPropertyValue<Guid>("commandId");
+                var partitionKey = document.GetPropertyValue<string>("partitionKey");
                 var imageId = document.GetPropertyValue<Guid>("id");
                 var imageName= document.GetPropertyValue<string>("name");
 
-                var @event = EventsFactory.CreateImageStoredEvent(partitionId, imageId, imageName);
+                var @event = EventsFactory.CreateImageStoredEvent(sessionId, commandId, imageId, imageName, partitionKey);
 
-                EventPublisher.PublishEvent(@event);
+                EventPublisher.PublishEvent(@event).Wait();
             }
         }
     }

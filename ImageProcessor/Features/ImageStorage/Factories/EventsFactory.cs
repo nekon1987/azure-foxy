@@ -1,8 +1,8 @@
 ﻿using System;
-using ImageProcessor.EventModels;
+using ImageProcessor.Features.ImageStorage.Eventing;
 using Microsoft.Azure.EventGrid.Models;
 
-namespace ImageProcessor.Gateways.Factories
+namespace ImageProcessor.Features.ImageStorage.Factories
 {
     public class EventsFactory
     {
@@ -21,11 +21,11 @@ namespace ImageProcessor.Gateways.Factories
             };
         }
 
-        public EventGridEvent CreateImageStoredEvent(Guid partitionId, Guid imageId, string imageName)
+        public EventGridEvent CreateImageStoredEvent(Guid sessionId, Guid commandId, Guid imageId, string imageName, string partitionKey)
         {
             return CreateNewGridEvent(new ImageStoredEvent()
             {
-                Name = imageName, ObjectId = imageId, PartitionId = partitionId
+                Name = imageName, ObjectId = imageId, SessionId = sessionId, CommandId = commandId, PartitionKey = partitionKey
             });
         }
     }

@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
+using ImageProcessor.Core;
+using ImageProcessor.Core.DataObjects;
 using ImageProcessor.DomainModels;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
-using Newtonsoft.Json.Linq;
 
-namespace ImageProcessor.GatewaysAndRepositories
+namespace ImageProcessor.Features.ImageAnalysis.Gateways
 {
     public class VisionApiGateway
     {
@@ -41,24 +39,24 @@ namespace ImageProcessor.GatewaysAndRepositories
 
             ComputerVisionClient.Endpoint = VisionEndpoint;
         }
-        
-        public async Task<ImageAnalysisData> AnalyzeBytesAsync(byte[] imageBytes)
+
+        public async Task<ImageAnalysisData> AnalyzeBytes(byte[] imageBytes, Guid sessionId)
         {
             using (Stream imageStream = new MemoryStream(imageBytes))
             {
-                var analysis = await ComputerVisionClient.AnalyzeImageInStreamAsync(imageStream, 
-                    details: new List<Details>(){ Details.Celebrities });
+                var analysis = await ComputerVisionClient.AnalyzeImageInStreamAsync(imageStream,
+                    details: new List<Details>() {Details.Celebrities});
 
                 var celebrities = ExtractCelebritiesFromAnalysis(analysis);
 
                 return new ImageAnalysisData()
                 {
-                    Celebrities = celebrities.Select(c => c.Name).ToList()
+                    Celebrities = celebrities.Select(c => c.Name).ToList(), id = Guid.NewGuid()
                 };
             }
         }
 
-        private List<CelebritiesModel> ExtractCelebritiesFromAnalysis(ImageAnalysis analysis)
+        private List<CelebritiesModel> ExtractCelebritiesFromAnalysis(Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models.ImageAnalysis analysis)
         {
             var result = analysis.Categories.First()?.Detail?.Celebrities?.ToList();
             return result ?? new List<CelebritiesModel>();

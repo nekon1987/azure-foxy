@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
 using ImageProcessor.Core.Extensions;
-using ImageProcessor.EventModels;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.EventGrid.Models;
 using Microsoft.Build.Framework;

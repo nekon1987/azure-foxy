@@ -1,0 +1,9 @@
+﻿Cosmos DB
+
+1. Create Database named ImageProcessor
+
+2. Create Collections:
+
+ * Images						with partition key /partitionKey
+ * ImageAnalysisResults			with partition key /partitionKey
+ * WorkflowSessions				with partition key /partitionKey

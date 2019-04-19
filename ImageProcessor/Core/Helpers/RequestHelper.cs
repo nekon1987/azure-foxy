@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using ImageProcessor.Core.DataObjects;
 using ImageProcessor.DomainModels;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +10,7 @@ namespace ImageProcessor.Core.Helpers
 {
     public class RequestHelper
     {
-        public FoxyResponse<ImageData> ExtractSingleImageFromRequest(HttpRequest request)
+        public FoxyResponse<ImageData> ExtractSingleImageFromRequest(HttpRequest request, Guid sessionId)
         {
             try
             {
@@ -26,9 +27,9 @@ namespace ImageProcessor.Core.Helpers
             }
             catch (Exception e)
             {
-                return FoxyResponse<ImageData>.Failure(e.Message);
+                ErrorReporting.StoreExceptionDetails(e, sessionId);
+                return FoxyResponse<ImageData>.Failure("Unable to extract image from the request body");
             }
-           
         }
     }
 }

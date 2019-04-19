@@ -22,4 +22,9 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="..\..\..\%2540 Temp Workspace\Foxy\ImageProcessor\DomainModels\Factories\" />
+    <Folder Include="..\..\..\%2540 Temp Workspace\Foxy\ImageProcessor\Features\ClientFeedback\" />
+    <Folder Include="..\..\..\%2540 Temp Workspace\Foxy\ImageProcessor\Features\WorkflowSession\" />
+  </ItemGroup>
 </Project>

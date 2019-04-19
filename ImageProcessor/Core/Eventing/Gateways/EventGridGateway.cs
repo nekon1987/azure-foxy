@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using ImageProcessor.Core;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
 using Microsoft.Rest;
 
-namespace ImageProcessor.Gateways
+namespace ImageProcessor.Core.Eventing.Gateways
 {
-    public class EventPublisher
+    public class EventGridGateway
     {
         private static readonly ServiceClientCredentials TopicCredentials = new TopicCredentials(ConfigurationManager.EventGrid.TopicKey);
         private static readonly EventGridClient EventGrid = new EventGridClient(TopicCredentials);
