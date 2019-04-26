@@ -22,7 +22,7 @@ namespace ImageProcessor.Features.ImageStorage.Eventing
         public static void Run([CosmosDBTrigger(
             databaseName: "ImageProcessor",
             collectionName: "Images",
-            ConnectionStringSetting = "dbg-cstr-codb-neu-p-image-processor-01", // todo - use debug config for local and prod
+            ConnectionStringSetting = "cstr-codb-neu-p-image-processor-01", 
             LeaseCollectionName = "leases",
             CreateLeaseCollectionIfNotExists = true
             )]IReadOnlyList<Document> input, ILogger log)
@@ -39,7 +39,7 @@ namespace ImageProcessor.Features.ImageStorage.Eventing
 
                 var @event = EventsFactory.CreateImageStoredEvent(sessionId, commandId, imageId, imageName, partitionKey);
 
-                EventPublisher.PublishEvent(@event).Wait();
+                EventPublisher.PublishEvent(@event, EventGridTopic.ImageStorageTopic).Wait();
             }
         }
     }

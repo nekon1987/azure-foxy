@@ -45,7 +45,7 @@ namespace ImageProcessor.DomainModels.DataFlow
                 SessionId = sessionId,
                 CommandId = Guid.NewGuid(),
                 CommandStatus = CommandStatus.InProgress,
-                AwaitTimePeriodMiliseconds = 300
+                AwaitTimePeriodMiliseconds = 1500
             };
         }
 

@@ -8,6 +8,7 @@ namespace ImageProcessor.DomainModels
     {
         public Guid RelatedImageObjectId { get; set; }
         public Guid id { get; set; }
+        public string partitionKey { get; set; }
         public List<string> Celebrities { get; set; }
 
         public override string ToString()

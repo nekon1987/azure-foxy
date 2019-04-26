@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ImageProcessor.Features.ImageAnalysis.Functions
 {
-    public static class DetectCelebrities
+    public static class SystemConfiguration
     {
         // https://docs.microsoft.com/en-us/azure/azure-functions/functions-debug-event-grid-trigger-local
         // ngrok http -host-header=localhost 7071
@@ -32,7 +32,7 @@ namespace ImageProcessor.Features.ImageAnalysis.Functions
         private static readonly WorkflowSessionService WorkflowSessionService = new WorkflowSessionService();
 
 
-        [FunctionName("DetectCelebrities")]
+        [FunctionName("DetectCelebrities22")]
         public static void Run([EventGridTrigger]EventGridEvent eventGridEvent, ILogger log)
         {
             // todo: break into private methods for readability + maybe wrapper for this if not succesful report client pattern

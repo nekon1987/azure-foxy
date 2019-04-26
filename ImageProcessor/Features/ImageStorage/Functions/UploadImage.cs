@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using ImageProcessor.Core;
 using ImageProcessor.Core.Helpers;
 using ImageProcessor.Features.WorkflowSession.Factories;
 using ImageProcessor.Features.WorkflowSession.Gateways;
@@ -23,11 +24,15 @@ namespace ImageProcessor.Features.ImageStorage.Functions
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             [CosmosDB("ImageProcessor", "Images", Id = "ObjectId",
-                ConnectionStringSetting = "dbg-cstr-codb-neu-p-image-processor-01", CreateIfNotExists = true)] IAsyncCollector<object> outputDocuments,
-            ILogger log)
+                ConnectionStringSetting = "cstr-codb-neu-p-image-processor-01", CreateIfNotExists = true)] IAsyncCollector<object> outputDocuments,
+            ILogger log, ExecutionContext context)
         {
-            var partitionKey = req.Query["UserName"].First();
+            string superSecret = System.Environment.GetEnvironmentVariable("SendGridApiKey");
 
+
+            Console.Write(ConfigurationManager.Repositories.ImagesProcessorCosmosDbPrimaryAccessKey);
+
+            var partitionKey = req.Query["UserName"].First();
             var worklowSession = WorkflowSessionFactory.CreateNewWorkflowSession(partitionKey);
 
             var awaitableCommandResult = WorkflowSessionService.CreateAwaitableCommandResultsInScopeOfSession(worklowSession).Result;

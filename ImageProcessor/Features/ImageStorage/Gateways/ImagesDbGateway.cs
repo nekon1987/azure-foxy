@@ -13,8 +13,8 @@ namespace ImageProcessor.Features.ImageStorage.Gateways
         public async Task<ImageData> GetImageById(Guid objectId, string partitionKey)
         {
             using (var client = new DocumentClient(new Uri(
-                    ConfigurationManager.Repository.CosmosDbEndpointUrl),
-                ConfigurationManager.Repository.CosmosDbPrimaryAccessKey))
+                    ConfigurationManager.Repositories.ImagesProcessorCosmosDbEndpointUrl),
+                ConfigurationManager.Repositories.ImagesProcessorCosmosDbPrimaryAccessKey))
             {
                 var documentResponse = await client.ReadDocumentAsync<ImageData>(
                     UriFactory.CreateDocumentUri("ImageProcessor", "Images", objectId.ToString()),

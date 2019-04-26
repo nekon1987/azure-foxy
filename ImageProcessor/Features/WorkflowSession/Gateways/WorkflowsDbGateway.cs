@@ -14,8 +14,8 @@ namespace ImageProcessor.Features.WorkflowSession.Gateways
         public async Task<FoxyWorkflowSession> LoadFoxyWorkflowSession(Guid workflowSessionId, string partitionKey)
         {
             using (var client = new DocumentClient(new Uri(
-                    ConfigurationManager.Repository.CosmosDbEndpointUrl),
-                ConfigurationManager.Repository.CosmosDbPrimaryAccessKey))
+                    ConfigurationManager.Repositories.ImagesProcessorCosmosDbEndpointUrl),
+                ConfigurationManager.Repositories.ImagesProcessorCosmosDbPrimaryAccessKey))
             {
 
                 var documentResponse = await client.ReadDocumentAsync<FoxyWorkflowSession>(
@@ -29,8 +29,8 @@ namespace ImageProcessor.Features.WorkflowSession.Gateways
         public async Task<FoxyWorkflowSession> StoreWorkflowSession(FoxyWorkflowSession workflowSession)
         {
             using (var client = new DocumentClient(new Uri(
-                ConfigurationManager.Repository.CosmosDbEndpointUrl),
-                ConfigurationManager.Repository.CosmosDbPrimaryAccessKey))
+                ConfigurationManager.Repositories.ImagesProcessorCosmosDbEndpointUrl),
+                ConfigurationManager.Repositories.ImagesProcessorCosmosDbPrimaryAccessKey))
             {
                 var documentResponse = await client.CreateDocumentAsync(UriFactory
                     .CreateDocumentCollectionUri("ImageProcessor", "WorkflowSessions"), workflowSession);
@@ -44,8 +44,8 @@ namespace ImageProcessor.Features.WorkflowSession.Gateways
         public async Task<FoxyWorkflowSession> UpdateCommandResult(FoxyWorkflowSession workflowSession)
         {
             using (var client = new DocumentClient(new Uri(
-             ConfigurationManager.Repository.CosmosDbEndpointUrl),
-             ConfigurationManager.Repository.CosmosDbPrimaryAccessKey))
+             ConfigurationManager.Repositories.ImagesProcessorCosmosDbEndpointUrl),
+             ConfigurationManager.Repositories.ImagesProcessorCosmosDbPrimaryAccessKey))
             {
                 var documentResponse = await client.UpsertDocumentAsync(UriFactory
                     .CreateDocumentCollectionUri("ImageProcessor", "WorkflowSessions"), workflowSession);

@@ -34,11 +34,15 @@ namespace ImageProcessor.Features.WorkflowSession.Functions
 
             if (commandCheckResult.Content.CommandStatus == CommandStatus.CompletedSuccesfully)
             {
-                // Load - if not then increase timeout
-               // AnalysisService.StoreAnalysisData()
+                var loadAnalysisResults = AnalysisService.LoadImagaAnalysisData(commandCheckResult.Content.ResultIdentifier, userName).Result;
+                
+                if(!loadAnalysisResults.WasSuccessful)
+                    return new BadRequestObjectResult(loadAnalysisResults.Message);
+
+                return new OkObjectResult(loadAnalysisResults.Content);
             }
 
-            return new OkObjectResult($"Hello");
+            return new OkObjectResult(commandCheckResult.Content);
         }
     }
 }

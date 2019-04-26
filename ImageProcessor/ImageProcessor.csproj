@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
+    <UserSecretsId>9F36E05E-E8EF-4B95-BA14-8073F4FCB4EF</UserSecretsId>
   </PropertyGroup>
 
 
@@ -11,7 +12,9 @@
     <PackageReference Include="Microsoft.Azure.EventGrid" Version="3.0.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB" Version="3.0.3" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.EventGrid" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.SendGrid" Version="3.0.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.26" />
+    <PackageReference Include="Sendgrid" Version="9.11.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
@@ -26,5 +29,8 @@
     <Folder Include="..\..\..\%2540 Temp Workspace\Foxy\ImageProcessor\DomainModels\Factories\" />
     <Folder Include="..\..\..\%2540 Temp Workspace\Foxy\ImageProcessor\Features\ClientFeedback\" />
     <Folder Include="..\..\..\%2540 Temp Workspace\Foxy\ImageProcessor\Features\WorkflowSession\" />
+  </ItemGroup> 
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.2" />
   </ItemGroup>
 </Project>

@@ -8,9 +8,9 @@ using Microsoft.Azure.Documents.Client;
 
 namespace ImageProcessor.Features.ImageAnalysis.Gateways
 {
-    public class AnalysisDbGateway
+    public class SystemConfigurationGateway
     {
-        public async Task<FoxyResponse<ImageAnalysisData>> StoreAnalysisData(ImageAnalysisData analysisData)
+        public async Task<FoxyResponse<ImageAnalysisData>> LoadSystemConfiguration(ImageAnalysisData analysisData)
         {
             using (var client = new DocumentClient(new Uri(
                 ConfigurationManager.Repositories.ImagesProcessorCosmosDbEndpointUrl),

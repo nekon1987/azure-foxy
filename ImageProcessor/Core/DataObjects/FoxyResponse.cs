@@ -4,10 +4,8 @@ using System.Text;
 
 namespace ImageProcessor.Core.DataObjects
 {
-    public class FoxyResponse<TContent>
+    public class FoxyResponse<TContent> : FoxyEmptyResponse
     {
-        public bool WasSuccessful { get; set; }
-        public string Message { get; set; }
         public TContent Content { get; set; }
 
         public static FoxyResponse<TContent> Failure(string message)
