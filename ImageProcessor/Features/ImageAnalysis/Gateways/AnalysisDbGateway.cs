@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ImageProcessor.Core;
 using ImageProcessor.Core.DataObjects;
+using ImageProcessor.Core.SystemConfiguration;
 using ImageProcessor.DomainModels;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
@@ -10,7 +11,7 @@ namespace ImageProcessor.Features.ImageAnalysis.Gateways
 {
     public class AnalysisDbGateway
     {
-        public async Task<FoxyResponse<ImageAnalysisData>> StoreAnalysisData(ImageAnalysisData analysisData)
+        public async Task<ImageAnalysisData> StoreAnalysisData(ImageAnalysisData analysisData)
         {
             using (var client = new DocumentClient(new Uri(
                 ConfigurationManager.Repositories.ImagesProcessorCosmosDbEndpointUrl),
@@ -21,7 +22,7 @@ namespace ImageProcessor.Features.ImageAnalysis.Gateways
 
                 analysisData.id = Guid.Parse(documentResponse.Resource.Id);
 
-                return FoxyResponse<ImageAnalysisData>.Success(analysisData);
+                return analysisData;
             }
         }
 

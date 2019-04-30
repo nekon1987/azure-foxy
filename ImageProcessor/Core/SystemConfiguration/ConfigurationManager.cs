@@ -1,74 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using ImageProcessor.Core.Eventing.Gateways;
-using Microsoft.Azure.WebJobs;
+using ImageProcessor.Core.Extensions;
+using ImageProcessor.Core.SystemConfiguration.Enums;
+using ImageProcessor.Core.SystemConfiguration.Models;
 using Microsoft.Extensions.Configuration;
 
-namespace ImageProcessor.Core
+namespace ImageProcessor.Core.SystemConfiguration
 {
     public static class ConfigurationManager
     {
-        // https://medium.com/statuscode/getting-key-vault-secrets-in-azure-functions-37620fd20a0b
+        public static void Initialize(IConfigurationRoot configurationExtension)
+        {
+            Repositories.Load(configurationExtension);
+            SendGrid.Load(configurationExtension);
+            EventGrid.Load(configurationExtension);
+        }
 
         public static class Repositories
         {
-            public static string ImagesProcessorCosmosDbEndpointUrl
+            public static string ImagesProcessorCosmosDbEndpointUrl;
+            public static string ImagesProcessorCosmosDbPrimaryAccessKey;
+
+            public static void Load(IConfigurationRoot configurationExtension)
             {
-                 get { return "https://localhost:8081"; }
+                ImagesProcessorCosmosDbEndpointUrl  = configurationExtension.LoadValueOrThrowException("Repositories.ImagesProcessorCosmosDbEndpointUrl");
+                ImagesProcessorCosmosDbPrimaryAccessKey = configurationExtension.LoadValueOrThrowException("Repositories.ImagesProcessorCosmosDbPrimaryAccessKey");
             }
-            public static string ImagesProcessorCosmosDbPrimaryAccessKey
+        }
+        public static class SendGrid
+        {
+            public static string SystemEmailAddress { get; set; }
+
+            public static void Load(IConfigurationRoot configurationExtension)
             {
-                get { return "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="; }
+                SystemEmailAddress = configurationExtension.LoadValueOrThrowException("SendGrid.SystemEmailAddress");
             }
         }
 
         public class EventGrid
         {
-            public class TopicConfiguration
-            {
-                public EventGridTopic TopicType;
-                public string TopicKey;
-                public string TopicName;
-            }
+            public static EventGridTopicConfiguration ImageAnalysisTopic { get; set; }
+            public static EventGridTopicConfiguration ImageStorageTopic { get; set; }
 
-            public static TopicConfiguration ImageAnalysisTopic
-            {
-                get
-                {
-                    return new TopicConfiguration()
-                    {
-                        TopicType = EventGridTopic.ImageAnalysisTopic,
-                        TopicKey = "KEY+ImageAnalysisTopic=",
-                        TopicName = "localhost:60101"
-                    };
-                }
-            }
+            public static List<EventGridTopicConfiguration> AllTopics => new List<EventGridTopicConfiguration>() {ImageAnalysisTopic, ImageStorageTopic};
 
-            public static TopicConfiguration ImageStorageTopic
+            public static void Load(IConfigurationRoot configurationExtension)
             {
-                get
-                {
-                    return new TopicConfiguration()
-                    {
-                        TopicType = EventGridTopic.ImageStorageTopic,
-                        TopicKey = "KEY+ImageStorageTopic=",
-                        TopicName = "localhost:60102"
-                    };
-                }
-            }
-
-            public static List<TopicConfiguration> AllTopics = new List<TopicConfiguration>()
-            {
-                ImageAnalysisTopic, ImageStorageTopic
-            };
-        }
-
-        public static class SendGrid
-        {
-            public static string SystemEmailAddress
-            {
-                get { return "noreply@foxy.com"; }
+                ImageAnalysisTopic = EventGridTopicConfiguration.FromConfiguration("ImageAnalysisTopic", configurationExtension);
+                ImageStorageTopic = EventGridTopicConfiguration.FromConfiguration("ImageStorageTopic", configurationExtension);
             }
         }
     }

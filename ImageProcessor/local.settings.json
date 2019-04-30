@@ -1,19 +1,43 @@
 {
   "IsEncrypted": false,
   "Values": {
+    // -------------------------------------------------------------------------------------------
+    // Some Values Utilized by ConfigurationManger.cs will be located in Secret.JSON file
+    // You can read more about storing secrets in .net core here:
+    // https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-2.2&tabs=windows
+
+    // Application Environment
+    "ScmType": "None",
+
     "WEBSITE_SLOT_NAME": "Production",
     "FUNCTIONS_EXTENSION_VERSION": "~2",
-    "ScmType": "None",
     "WEBSITE_AUTH_ENABLED": "False",
     "WEBSITE_NODE_DEFAULT_VERSION": "10.14.1",
     "WEBSITE_CONTENTSHARE": "fap-neu-p-image-processor-018fea",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
     "WEBSITE_SITE_NAME": "fap-neu-p-image-processor-01",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "cstr-codb-neu-p-image-processor-01": "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+
+    "EnvironmentCategory": "D", // P - Production; D - Local Development
+
+    // Azure Key Vault:  https://integration.team/2017/09/25/retrieve-azure-key-vault-secrets-using-azure-functions-managed-service-identity/
+    "VaultClientId": "",
+    "VaultClientSecret": "For-Azure-Deployment-Only",
+
+    // Repositories
+    "Repositories.ImagesProcessorCosmosDbEndpointUrl": "https://localhost:8081",
+
+    // Send Grid
+    "SendGrid.SystemEmailAddress": "noreply@foxy.com",
+
+    // Event Grid
     "AzureEventGridTopicEndpoint": "http://localhost:5000/ImageProcessing",
     "AzureEventGridTopicAccessKey": "",
-    "SendGridApiKey": "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"
+    "EventGrid.ImageAnalysisTopic.Name": "localhost:60101",
+    "EventGrid.ImageAnalysisTopic.Key": "KEY+ImageAnalysisTopic=",
+    "EventGrid.ImageStorageTopic.Name": "localhost:60102",
+    "EventGrid.ImageStorageTopic.Key": "KEY+ImageStorageTopic="
   },
   "Host": {
     "LocalHttpPort": 7071,

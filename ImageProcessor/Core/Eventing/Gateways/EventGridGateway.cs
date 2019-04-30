@@ -1,37 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using ImageProcessor.Core.SystemConfiguration;
+using ImageProcessor.Core.SystemConfiguration.Enums;
+using ImageProcessor.Core.SystemConfiguration.Models;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
-using Microsoft.Rest;
-using TopicConfiguration = ImageProcessor.Core.ConfigurationManager.EventGrid.TopicConfiguration;
 
 namespace ImageProcessor.Core.Eventing.Gateways
 {
-    public enum EventGridTopic
-    {
-        ImageStorageTopic, ImageAnalysisTopic
-    }
-
-    
-
     public class EventGridGateway
     {
-        private static readonly Dictionary<TopicConfiguration, EventGridClient> EventGridClientsForGridTopics = new Dictionary<TopicConfiguration, EventGridClient>();
+        private static readonly Dictionary<EventGridTopicConfiguration, EventGridClient> 
+            EventGridClientsForGridTopics = new Dictionary<EventGridTopicConfiguration, EventGridClient>();
 
         static EventGridGateway()
         {
-            foreach (var gridTopic in ConfigurationManager.EventGrid.AllTopics)
-            {
-                EventGridClientsForGridTopics.Add(gridTopic, new EventGridClient(new TopicCredentials(gridTopic.TopicKey)));
-            }
+            LoadListOfAllRegisteredEventGridTopicsFromConfiguration();
         }
 
-        public async Task<bool> PublishEvents(IList<EventGridEvent> events, EventGridTopic eventGridTopic)
+        public async Task<bool> PublishEvent(EventGridEvent eventData, EventGridTopicType eventGridTopicType)
         {
-            var eventGridClientsForGridTopic = EventGridClientsForGridTopics.Single(c => c.Key.TopicType == eventGridTopic);
+            return await PublishEvents(new List<EventGridEvent>() { eventData }, eventGridTopicType);
+        }
 
+        public async Task<bool> PublishEvents(IList<EventGridEvent> events, EventGridTopicType eventGridTopicType)
+        {
+            var eventGridClientsForGridTopic = EventGridClientsForGridTopics.SingleOrDefault(c => c.Key.TopicType == eventGridTopicType);
+            
             var eventGridClient = eventGridClientsForGridTopic.Value;
             var topicConfigurtion = eventGridClientsForGridTopic.Key;
 
@@ -39,9 +37,12 @@ namespace ImageProcessor.Core.Eventing.Gateways
             return azureResponse.Response.StatusCode == HttpStatusCode.OK;
         }
 
-        public async Task<bool> PublishEvent(EventGridEvent eventData, EventGridTopic eventGridTopic)
+        private static void LoadListOfAllRegisteredEventGridTopicsFromConfiguration()
         {
-            return await PublishEvents(new List<EventGridEvent>() { eventData }, eventGridTopic);
+            foreach (var gridTopic in ConfigurationManager.EventGrid.AllTopics)
+            {
+                EventGridClientsForGridTopics.Add(gridTopic, new EventGridClient(new TopicCredentials(gridTopic.TopicKey)));
+            }
         }
     }
 }

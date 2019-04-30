@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ImageProcessor.Core;
 using ImageProcessor.Core.DataObjects;
 using ImageProcessor.Core.Eventing.Gateways;
+using ImageProcessor.Core.SystemConfiguration.Enums;
 using ImageProcessor.DomainModels;
 using ImageProcessor.Features.ImageAnalysis.Factories;
 using ImageProcessor.Features.ImageAnalysis.Gateways;
@@ -25,7 +26,8 @@ namespace ImageProcessor.Features.ImageAnalysis.Services
             {
                 imageAnalysisData.RelatedImageObjectId = imageId;
                 imageAnalysisData.partitionKey = partitionKey;
-                return await AnalysisDbGateway.StoreAnalysisData(imageAnalysisData);
+                var storeResult = await AnalysisDbGateway.StoreAnalysisData(imageAnalysisData);
+                return FoxyResponse<ImageAnalysisData>.Success(storeResult);
             }
             catch (Exception e)
             {
@@ -70,7 +72,7 @@ namespace ImageProcessor.Features.ImageAnalysis.Services
 
                 var @event = EventsFactory.CreateAnalysisCompletedEvent(sessionId, commandId, imageAnalysisData.id, partitionKey);
 
-                await EventPublisher.PublishEvent(@event, EventGridTopic.ImageAnalysisTopic);
+                await EventPublisher.PublishEvent(@event, EventGridTopicType.ImageAnalysisTopic);
 
                 return FoxyEmptyResponse.Success();
             }

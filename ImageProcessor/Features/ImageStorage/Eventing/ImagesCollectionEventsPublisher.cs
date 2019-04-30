@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using ImageProcessor.Core.Eventing.Gateways;
+using ImageProcessor.Core.SystemConfiguration.Enums;
 using ImageProcessor.Features.ImageStorage.Factories;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.WebJobs;
@@ -8,11 +9,6 @@ using Microsoft.Extensions.Logging;
 
 namespace ImageProcessor.Features.ImageStorage.Eventing
 {
-    public class SomeImageMetadata
-    {
-        public string ValueAbc { get; set; }
-    }
-
     public static class ImagesCollectionEventsPublisher
     {
         private static readonly EventsFactory EventsFactory = new EventsFactory();
@@ -22,7 +18,7 @@ namespace ImageProcessor.Features.ImageStorage.Eventing
         public static void Run([CosmosDBTrigger(
             databaseName: "ImageProcessor",
             collectionName: "Images",
-            ConnectionStringSetting = "cstr-codb-neu-p-image-processor-01", 
+            ConnectionStringSetting = "ConnectionStrings.ImageProcessor", 
             LeaseCollectionName = "leases",
             CreateLeaseCollectionIfNotExists = true
             )]IReadOnlyList<Document> input, ILogger log)
@@ -39,7 +35,7 @@ namespace ImageProcessor.Features.ImageStorage.Eventing
 
                 var @event = EventsFactory.CreateImageStoredEvent(sessionId, commandId, imageId, imageName, partitionKey);
 
-                EventPublisher.PublishEvent(@event, EventGridTopic.ImageStorageTopic).Wait();
+                EventPublisher.PublishEvent(@event, EventGridTopicType.ImageStorageTopic).Wait();
             }
         }
     }

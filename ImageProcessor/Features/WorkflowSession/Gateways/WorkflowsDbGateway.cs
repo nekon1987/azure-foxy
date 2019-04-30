@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using ImageProcessor.Core;
 using ImageProcessor.Core.DataObjects;
+using ImageProcessor.Core.SystemConfiguration;
 using ImageProcessor.DomainModels;
 using ImageProcessor.DomainModels.DataFlow;
 using Microsoft.Azure.Documents;

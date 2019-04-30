@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ImageProcessor.Core;
+using ImageProcessor.Core.SystemConfiguration;
 using ImageProcessor.DomainModels;
 using SendGrid.Helpers.Mail;
 

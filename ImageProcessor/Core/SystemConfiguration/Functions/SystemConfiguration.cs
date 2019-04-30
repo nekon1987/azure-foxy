@@ -1,23 +1,18 @@
 // Default URL for triggering event grid function in the local environment.
 // http://localhost:7071/runtime/webhooks/EventGrid?functionName={functionname}
 
-using System;
-using ImageProcessor.Core;
 using ImageProcessor.Core.Eventing.Services;
 using ImageProcessor.DomainModels.DataFlow;
-using ImageProcessor.Features.ImageAnalysis.Gateways;
 using ImageProcessor.Features.ImageAnalysis.Services;
 using ImageProcessor.Features.ImageStorage.Eventing;
-using ImageProcessor.Features.ImageStorage.Gateways;
 using ImageProcessor.Features.ImageStorage.Services;
-using ImageProcessor.Features.WorkflowSession.Gateways;
 using ImageProcessor.Features.WorkflowSession.Services;
 using Microsoft.Azure.EventGrid.Models;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.EventGrid;
 using Microsoft.Extensions.Logging;
 
-namespace ImageProcessor.Features.ImageAnalysis.Functions
+namespace ImageProcessor.Core.SystemConfiguration.Functions
 {
     public static class SystemConfiguration
     {
